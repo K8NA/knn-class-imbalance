@@ -4,6 +4,7 @@ from collections import Counter
 
 from mla.base import BaseEstimator
 
+
 class KNNBase(BaseEstimator):
     def __init__(self, k=5, distance_func=euclidean):
         """Base class for Nearest neighbors classifier and regressor.
@@ -33,11 +34,11 @@ class KNNBase(BaseEstimator):
         """Predict the label of a single instance x."""
 
         # Explicação:
-        # Primeiro, calcula as distâncias entre x e todas as instâncias no conjunto de treinamento.
+        # Primeiro, calcula as distâncias entre x e todas as instâncias no conjunto de treino.
         # Em seguida, ordena essas instâncias pelo valor da distância e seleciona os k vizinhos mais próximos. 
         # Finalmente, chama o método aggregate para combinar os rótulos (ou valores alvo) dos vizinhos e fazer a previsão final.
 
-        # calcular distâncias entre x e todos os exemplos no conjunto de treinamento
+        # calcular distâncias entre x e todos os exemplos no conjunto de treino
         distances = [self.distance_func(x, example) for example in self.X]
 
         # ordenar todos os exemplos pela sua distância até x e manter o valor alvo
@@ -67,7 +68,7 @@ class KNNClassifier(KNNBase):
 
         weighted_labels = Counter()
         for label, distance in zip(neighbors_targets, distances):
-            if distance != 0: # evitar divisão por 0
+            if distance != 0:  # evitar divisão por 0
                 weighted_labels[label] += 1 / distance
 
         if not weighted_labels:  # se o Counter for vazio
@@ -83,7 +84,6 @@ class KNNRegressor(KNNBase):
     # calcula a média dos valores alvo dos vizinhos mais próximos, ponderando-os pelo inverso de suas distâncias, 
     # garantindo que não ocorra divisão por zero ao retornar a média simples se todas as distâncias forem zero.
 
-
     def aggregate(self, neighbors_targets, distances):
         """Return the mean of all targets weighted by inverse distance."""
 
@@ -98,4 +98,3 @@ class KNNRegressor(KNNBase):
             return np.mean(neighbors_targets)  # retorna a média sem ponderação
         else:
             return weighted_sum / total_weight
-

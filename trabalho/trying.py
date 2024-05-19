@@ -1,8 +1,14 @@
 import openml
+import sns
+from matplotlib import pyplot as plt
+
 from mla.knn import KNNClassifier
 from mla.metrics import accuracy
 from sklearn.model_selection import train_test_split
 import warnings
+import plotly.graph_objects as go
+import numpy as np
+
 
 #Suprimir avisos futuros (só porque me estava a incomodar, não é uma linha necessária)
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -26,3 +32,5 @@ y_pred = knn.predict(X_test)
 #Calcular a accuracy
 acc = accuracy(y_test, y_pred)
 print("Accuracy:", acc)
+
+
